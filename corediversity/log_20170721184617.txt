@@ -1,0 +1,274 @@
+Logging started at 18:46:17 on 21 Jul 2017
+QIIME version: 1.9.1
+
+qiime_config values:
+pick_otus_reference_seqs_fp	/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/rep_set/97_otus.fasta
+sc_queue	all.q
+pynast_template_alignment_fp	/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/rep_set_aligned/85_otus.pynast.fasta
+cluster_jobs_fp	start_parallel_jobs.py
+assign_taxonomy_reference_seqs_fp	/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/rep_set/97_otus.fasta
+torque_queue	friendlyq
+jobs_to_start	1
+denoiser_min_per_core	50
+assign_taxonomy_id_to_taxonomy_fp	/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/taxonomy/97_otu_taxonomy.txt
+temp_dir	/var/folders/rd/6ytyj48n7nn4l2c6dfsdrccc0000gn/T/
+blastall_fp	blastall
+seconds_to_sleep	1
+
+parameter file values:
+parallel:jobs_to_start	1
+
+Input file md5 sums:
+./filtered_otu_table_94.biom: df6aee23a3557f54d70c50d9c384c015
+./AGP_metadata_subset_94.txt: cd70e6a490e307d361dc819c464d1c41
+./ag_tree.tree: 4d03d2e6ebd837042fc60f5423f93e3e
+
+Executing commands.
+
+# Generate BIOM table summary command 
+biom summarize-table -i ./filtered_otu_table_94.biom -o corediversity//biom_table_summary.txt 
+
+Stdout:
+
+Stderr:
+
+# Filter low sequence count samples from table (minimum sequence count: 1500) command 
+filter_samples_from_otu_table.py -i ./filtered_otu_table_94.biom -o corediversity//table_mc1500.biom -n 1500
+
+Stdout:
+
+Stderr:
+
+# Rarify the OTU table to 1500 sequences/sample command 
+single_rarefaction.py -i corediversity//table_mc1500.biom -o corediversity//table_even1500.biom -d 1500
+
+Stdout:
+
+Stderr:
+
+Executing commands.
+
+# Beta Diversity (weighted_unifrac) command 
+beta_diversity.py -i corediversity//table_even1500.biom -o corediversity//bdiv_even1500/ --metrics weighted_unifrac  -t ./ag_tree.tree 
+
+Stdout:
+
+Stderr:
+
+# Rename distance matrix (weighted_unifrac) command 
+mv corediversity//bdiv_even1500//weighted_unifrac_table_even1500.txt corediversity//bdiv_even1500//weighted_unifrac_dm.txt
+
+Stdout:
+
+Stderr:
+
+# Principal coordinates (weighted_unifrac) command 
+principal_coordinates.py -i corediversity//bdiv_even1500//weighted_unifrac_dm.txt -o corediversity//bdiv_even1500//weighted_unifrac_pc.txt 
+
+Stdout:
+
+Stderr:
+/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/skbio/stats/ordination/_principal_coordinate_analysis.py:107: RuntimeWarning: The result contains negative eigenvalues. Please compare their magnitude with the magnitude of some of the largest positive eigenvalues. If the negative ones are smaller, it's probably safe to ignore them, but if they are large in magnitude, the results won't be useful. See the Notes section for more details. The smallest eigenvalue is -0.186003728006 and the largest is 5.82133603293.
+  RuntimeWarning
+
+# Make emperor plots, weighted_unifrac) command 
+make_emperor.py -i corediversity//bdiv_even1500//weighted_unifrac_pc.txt -o corediversity//bdiv_even1500//weighted_unifrac_emperor_pcoa_plot/ -m ./AGP_metadata_subset_94.txt 
+
+Stdout:
+
+Stderr:
+
+# Beta Diversity (unweighted_unifrac) command 
+beta_diversity.py -i corediversity//table_even1500.biom -o corediversity//bdiv_even1500/ --metrics unweighted_unifrac  -t ./ag_tree.tree 
+
+Stdout:
+
+Stderr:
+
+# Rename distance matrix (unweighted_unifrac) command 
+mv corediversity//bdiv_even1500//unweighted_unifrac_table_even1500.txt corediversity//bdiv_even1500//unweighted_unifrac_dm.txt
+
+Stdout:
+
+Stderr:
+
+# Principal coordinates (unweighted_unifrac) command 
+principal_coordinates.py -i corediversity//bdiv_even1500//unweighted_unifrac_dm.txt -o corediversity//bdiv_even1500//unweighted_unifrac_pc.txt 
+
+Stdout:
+
+Stderr:
+
+# Make emperor plots, unweighted_unifrac) command 
+make_emperor.py -i corediversity//bdiv_even1500//unweighted_unifrac_pc.txt -o corediversity//bdiv_even1500//unweighted_unifrac_emperor_pcoa_plot/ -m ./AGP_metadata_subset_94.txt 
+
+Stdout:
+
+Stderr:
+
+Executing commands.
+
+# Alpha rarefaction command 
+multiple_rarefactions.py -i corediversity//table_mc1500.biom -m 10 -x 1500 -s 149 -o corediversity//arare_max1500//rarefaction/ 
+
+Stdout:
+
+Stderr:
+
+# Alpha diversity on rarefied OTU tables command 
+alpha_diversity.py -i corediversity//arare_max1500//rarefaction/ -o corediversity//arare_max1500//alpha_div/  -t ./ag_tree.tree
+
+Stdout:
+
+Stderr:
+
+# Collate alpha command 
+collate_alpha.py -i corediversity//arare_max1500//alpha_div/ -o corediversity//arare_max1500//alpha_div_collated/ 
+
+Stdout:
+
+Stderr:
+
+# Removing intermediate files command 
+rm -r corediversity//arare_max1500//rarefaction/ corediversity//arare_max1500//alpha_div/
+
+Stdout:
+
+Stderr:
+
+# Rarefaction plot: All metrics command 
+make_rarefaction_plots.py -i corediversity//arare_max1500//alpha_div_collated/ -m ./AGP_metadata_subset_94.txt -o corediversity//arare_max1500//alpha_rarefaction_plots/ 
+
+Stdout:
+
+Stderr:
+/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  if self._edgecolors == str('face'):
+
+Executing commands.
+
+# Sort OTU Table command 
+sort_otu_table.py -i corediversity//table_mc1500.biom -o corediversity//taxa_plots/table_mc1500_sorted.biom
+
+Stdout:
+
+Stderr:
+
+# Summarize Taxonomy command 
+summarize_taxa.py -i corediversity//taxa_plots/table_mc1500_sorted.biom -o corediversity//taxa_plots/ 
+
+Stdout:
+
+Stderr:
+
+# Plot Taxonomy Summary command 
+plot_taxa_summary.py -i corediversity//taxa_plots/table_mc1500_sorted_L2.txt,corediversity//taxa_plots/table_mc1500_sorted_L3.txt,corediversity//taxa_plots/table_mc1500_sorted_L4.txt,corediversity//taxa_plots/table_mc1500_sorted_L5.txt,corediversity//taxa_plots/table_mc1500_sorted_L6.txt -o corediversity//taxa_plots//taxa_summary_plots/ 
+
+Stdout:
+
+Stderr:
+/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  if self._edgecolors == str('face'):
+
+Executing commands.
+
+# Collapse samples in OTU table by categories command 
+collapse_samples.py -m ./AGP_metadata_subset_94.txt -b corediversity//table_mc1500.biom --output_biom_fp corediversity//taxa_plots_case/case_otu_table.biom --output_mapping_fp corediversity//taxa_plots_case/case_map.txt --collapse_fields 'case' 
+
+Stdout:
+
+Stderr:
+
+# Sort OTU Table command 
+sort_otu_table.py -i corediversity//taxa_plots_case/case_otu_table.biom -o corediversity//taxa_plots_case/case_otu_table_sorted.biom
+
+Stdout:
+
+Stderr:
+
+# Summarize Taxonomy command 
+summarize_taxa.py -i corediversity//taxa_plots_case/case_otu_table_sorted.biom -o corediversity//taxa_plots_case/ 
+
+Stdout:
+
+Stderr:
+
+# Plot Taxonomy Summary command 
+plot_taxa_summary.py -i corediversity//taxa_plots_case/case_otu_table_sorted_L2.txt,corediversity//taxa_plots_case/case_otu_table_sorted_L3.txt,corediversity//taxa_plots_case/case_otu_table_sorted_L4.txt,corediversity//taxa_plots_case/case_otu_table_sorted_L5.txt,corediversity//taxa_plots_case/case_otu_table_sorted_L6.txt -o corediversity//taxa_plots_case//taxa_summary_plots/ 
+
+Stdout:
+
+Stderr:
+/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  if self._edgecolors == str('face'):
+
+Executing commands.
+
+# Boxplots (case) command 
+make_distance_boxplots.py -d corediversity//bdiv_even1500//weighted_unifrac_dm.txt -f case -o corediversity//bdiv_even1500//weighted_unifrac_boxplots/ -m ./AGP_metadata_subset_94.txt -n 999 
+
+Stdout:
+
+Stderr:
+/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/matplotlib/tight_layout.py:225: UserWarning: tight_layout : falling back to Agg renderer
+  warnings.warn("tight_layout : falling back to Agg renderer")
+
+# Boxplots (case) command 
+make_distance_boxplots.py -d corediversity//bdiv_even1500//unweighted_unifrac_dm.txt -f case -o corediversity//bdiv_even1500//unweighted_unifrac_boxplots/ -m ./AGP_metadata_subset_94.txt -n 999 
+
+Stdout:
+
+Stderr:
+/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/matplotlib/tight_layout.py:225: UserWarning: tight_layout : falling back to Agg renderer
+  warnings.warn("tight_layout : falling back to Agg renderer")
+
+# Compare alpha diversity (chao1) command 
+compare_alpha_diversity.py -i corediversity//arare_max1500//alpha_div_collated/chao1.txt -m ./AGP_metadata_subset_94.txt -c case -o corediversity//arare_max1500//compare_chao1 -n 999 
+
+Stdout:
+
+Stderr:
+/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/matplotlib/tight_layout.py:225: UserWarning: tight_layout : falling back to Agg renderer
+  warnings.warn("tight_layout : falling back to Agg renderer")
+
+# Compare alpha diversity (observed_otus) command 
+compare_alpha_diversity.py -i corediversity//arare_max1500//alpha_div_collated/observed_otus.txt -m ./AGP_metadata_subset_94.txt -c case -o corediversity//arare_max1500//compare_observed_otus -n 999 
+
+Stdout:
+
+Stderr:
+/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/matplotlib/tight_layout.py:225: UserWarning: tight_layout : falling back to Agg renderer
+  warnings.warn("tight_layout : falling back to Agg renderer")
+
+# Compare alpha diversity (PD_whole_tree) command 
+compare_alpha_diversity.py -i corediversity//arare_max1500//alpha_div_collated/PD_whole_tree.txt -m ./AGP_metadata_subset_94.txt -c case -o corediversity//arare_max1500//compare_PD_whole_tree -n 999 
+
+Stdout:
+
+Stderr:
+/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/matplotlib/tight_layout.py:225: UserWarning: tight_layout : falling back to Agg renderer
+  warnings.warn("tight_layout : falling back to Agg renderer")
+
+# Group significance (case) command 
+group_significance.py -i corediversity//table_even1500.biom -m ./AGP_metadata_subset_94.txt -c case -o corediversity//group_significance_case.txt 
+
+Stdout:
+
+Stderr:
+
+# Compress the filtered BIOM table command 
+gzip corediversity//table_mc1500.biom
+
+Stdout:
+
+Stderr:
+
+# Compress the rarefied BIOM table command 
+gzip corediversity//table_even1500.biom
+
+Stdout:
+
+Stderr:
+
+
+Logging stopped at 19:58:13 on 21 Jul 2017

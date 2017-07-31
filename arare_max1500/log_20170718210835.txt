@@ -1,0 +1,77 @@
+Logging started at 21:08:35 on 18 Jul 2017
+QIIME version: 1.9.1
+
+qiime_config values:
+pick_otus_reference_seqs_fp	/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/rep_set/97_otus.fasta
+sc_queue	all.q
+pynast_template_alignment_fp	/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/rep_set_aligned/85_otus.pynast.fasta
+cluster_jobs_fp	start_parallel_jobs.py
+assign_taxonomy_reference_seqs_fp	/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/rep_set/97_otus.fasta
+torque_queue	friendlyq
+jobs_to_start	1
+denoiser_min_per_core	50
+assign_taxonomy_id_to_taxonomy_fp	/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/taxonomy/97_otu_taxonomy.txt
+temp_dir	/var/folders/rd/6ytyj48n7nn4l2c6dfsdrccc0000gn/T/
+blastall_fp	blastall
+seconds_to_sleep	1
+
+parameter file values:
+parallel:jobs_to_start	1
+
+Input file md5 sums:
+./filtered_otu_table_94.biom: b8e535a1b161601e830c0cf2a1c162bb
+./AGP_metadata_subset_94.txt: 8b2db4c94783200aa98ece5d28c1d418
+./97_otus.tree: b7e76593bce82913af1cfb06edf15732
+
+Executing commands.
+
+# Alpha rarefaction command 
+multiple_rarefactions.py -i ./filtered_otu_table_94.biom -m 10 -x 1500 -s 149 -o arare_max1500//rarefaction/ 
+
+Stdout:
+
+Stderr:
+
+# Alpha diversity on rarefied OTU tables command 
+alpha_diversity.py -i arare_max1500//rarefaction/ -o arare_max1500//alpha_div/  -t ./97_otus.tree
+
+
+
+*** ERROR RAISED DURING STEP: Alpha diversity on rarefied OTU tables
+Command run was:
+ alpha_diversity.py -i arare_max1500//rarefaction/ -o arare_max1500//alpha_div/  -t ./97_otus.tree
+Command returned exit status: 1
+Stdout:
+
+Stderr
+Traceback (most recent call last):
+  File "/Users/maxabramson/miniconda3/envs/qiime1/bin/alpha_diversity.py", line 4, in <module>
+    __import__('pkg_resources').run_script('qiime==1.9.1', 'alpha_diversity.py')
+  File "/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/setuptools-27.2.0-py2.7.egg/pkg_resources/__init__.py", line 744, in run_script
+    
+  File "/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/setuptools-27.2.0-py2.7.egg/pkg_resources/__init__.py", line 1499, in run_script
+    
+  File "/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime-1.9.1-py2.7.egg-info/scripts/alpha_diversity.py", line 131, in <module>
+    main()
+  File "/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime-1.9.1-py2.7.egg-info/scripts/alpha_diversity.py", line 115, in main
+    opts.tree_path)
+  File "/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime/alpha_diversity.py", line 379, in multiple_file_alpha
+    output_fp, tree_path)
+  File "/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime/alpha_diversity.py", line 326, in single_file_alpha
+    result_path=outfilepath, log_path=None)
+  File "/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime/util.py", line 259, in __call__
+    result = self.getResult(*args, **kwargs)
+  File "/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime/alpha_diversity.py", line 199, in getResult
+    sample_names=otu_table.ids())
+  File "/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime/util.py", line 259, in __call__
+    result = self.getResult(*args, **kwargs)
+  File "/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime/alpha_diversity.py", line 128, in getResult
+    new_sample_names, result = self.Metric(tree, envs, **self.Params)
+  File "/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/cogent/maths/unifrac/fast_unifrac.py", line 227, in PD_whole_tree
+    branch_lengths, nodes, t = _fast_unifrac_setup(t, envs)
+  File "/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/cogent/maths/unifrac/fast_unifrac.py", line 194, in _fast_unifrac_setup
+    raise ValueError, "No valid samples/environments found. Check whether tree tips match otus/taxa present in samples/environments"
+ValueError: No valid samples/environments found. Check whether tree tips match otus/taxa present in samples/environments
+
+
+Logging stopped at 21:12:59 on 18 Jul 2017
