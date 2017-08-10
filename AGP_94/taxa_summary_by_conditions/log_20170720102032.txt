@@ -1,0 +1,50 @@
+Logging started at 10:20:32 on 20 Jul 2017
+QIIME version: 1.9.1
+
+qiime_config values:
+pick_otus_reference_seqs_fp	/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/rep_set/97_otus.fasta
+sc_queue	all.q
+pynast_template_alignment_fp	/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/rep_set_aligned/85_otus.pynast.fasta
+cluster_jobs_fp	start_parallel_jobs.py
+assign_taxonomy_reference_seqs_fp	/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/rep_set/97_otus.fasta
+torque_queue	friendlyq
+jobs_to_start	1
+denoiser_min_per_core	50
+assign_taxonomy_id_to_taxonomy_fp	/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/taxonomy/97_otu_taxonomy.txt
+temp_dir	/var/folders/rd/6ytyj48n7nn4l2c6dfsdrccc0000gn/T/
+blastall_fp	blastall
+seconds_to_sleep	1
+
+parameter file values:
+
+Input file md5 sums:
+filtered_otu_table_94.biom: a225d0b6fabaf84fffad76556b5bb9d9
+AGP_metadata_subset_94.txt: cd70e6a490e307d361dc819c464d1c41
+
+Executing commands.
+
+# Collapse samples in OTU table by categories command 
+collapse_samples.py -m AGP_metadata_subset_94.txt -b filtered_otu_table_94.biom --output_biom_fp taxa_summary_by_conditions/case_otu_table.biom --output_mapping_fp taxa_summary_by_conditions/case_map.txt --collapse_fields 'case' 
+
+Stdout:
+
+Stderr:
+
+# Summarize Taxonomy command 
+summarize_taxa.py -i taxa_summary_by_conditions/case_otu_table.biom -o taxa_summary_by_conditions 
+
+Stdout:
+
+Stderr:
+
+# Plot Taxonomy Summary command 
+plot_taxa_summary.py -i taxa_summary_by_conditions/case_otu_table_L2.txt,taxa_summary_by_conditions/case_otu_table_L3.txt,taxa_summary_by_conditions/case_otu_table_L4.txt,taxa_summary_by_conditions/case_otu_table_L5.txt,taxa_summary_by_conditions/case_otu_table_L6.txt -o taxa_summary_by_conditions/taxa_summary_plots/ 
+
+Stdout:
+
+Stderr:
+/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  if self._edgecolors == str('face'):
+
+
+Logging stopped at 10:23:52 on 20 Jul 2017

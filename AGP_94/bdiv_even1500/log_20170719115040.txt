@@ -1,0 +1,69 @@
+Logging started at 11:50:40 on 19 Jul 2017
+QIIME version: 1.9.1
+
+qiime_config values:
+pick_otus_reference_seqs_fp	/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/rep_set/97_otus.fasta
+sc_queue	all.q
+pynast_template_alignment_fp	/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/rep_set_aligned/85_otus.pynast.fasta
+cluster_jobs_fp	start_parallel_jobs.py
+assign_taxonomy_reference_seqs_fp	/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/rep_set/97_otus.fasta
+torque_queue	friendlyq
+jobs_to_start	1
+denoiser_min_per_core	50
+assign_taxonomy_id_to_taxonomy_fp	/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/taxonomy/97_otu_taxonomy.txt
+temp_dir	/var/folders/rd/6ytyj48n7nn4l2c6dfsdrccc0000gn/T/
+blastall_fp	blastall
+seconds_to_sleep	1
+
+parameter file values:
+parallel:jobs_to_start	1
+
+Input file md5 sums:
+./filtered_otu_table_94.biom: a225d0b6fabaf84fffad76556b5bb9d9
+./AGP_metadata_subset_94.txt: cd70e6a490e307d361dc819c464d1c41
+./97_otus.tree: b7e76593bce82913af1cfb06edf15732
+
+Executing commands.
+
+# Sample OTU table at 1500 seqs/sample command 
+single_rarefaction.py -i ./filtered_otu_table_94.biom -o bdiv_even1500//filtered_otu_table_94_even1500.biom -d 1500
+
+Stdout:
+
+Stderr:
+
+# Beta Diversity (weighted_unifrac) command 
+beta_diversity.py -i bdiv_even1500//filtered_otu_table_94_even1500.biom -o bdiv_even1500/ --metrics weighted_unifrac  -t ./97_otus.tree 
+
+
+
+*** ERROR RAISED DURING STEP: Beta Diversity (weighted_unifrac)
+Command run was:
+ beta_diversity.py -i bdiv_even1500//filtered_otu_table_94_even1500.biom -o bdiv_even1500/ --metrics weighted_unifrac  -t ./97_otus.tree 
+Command returned exit status: 1
+Stdout:
+
+Stderr
+Traceback (most recent call last):
+  File "/Users/maxabramson/miniconda3/envs/qiime1/bin/beta_diversity.py", line 4, in <module>
+    __import__('pkg_resources').run_script('qiime==1.9.1', 'beta_diversity.py')
+  File "/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/setuptools-27.2.0-py2.7.egg/pkg_resources/__init__.py", line 744, in run_script
+    
+  File "/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/setuptools-27.2.0-py2.7.egg/pkg_resources/__init__.py", line 1499, in run_script
+    
+  File "/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime-1.9.1-py2.7.egg-info/scripts/beta_diversity.py", line 152, in <module>
+    main()
+  File "/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime-1.9.1-py2.7.egg-info/scripts/beta_diversity.py", line 145, in main
+    opts.output_dir, opts.rows, full_tree=opts.full_tree)
+  File "/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime/beta_diversity.py", line 180, in single_file_beta
+    make_subtree=(not full_tree))
+  File "/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime/beta_metrics.py", line 44, in result
+    is_symmetric=is_symmetric, modes=["distance_matrix"], **kwargs)
+  File "/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/cogent/maths/unifrac/fast_unifrac.py", line 466, in fast_unifrac
+    envs, count_array, unique_envs, env_to_index, node_to_index, env_names, branch_lengths, nodes, t = _fast_unifrac_setup(t, envs, make_subtree)
+  File "/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/cogent/maths/unifrac/fast_unifrac.py", line 194, in _fast_unifrac_setup
+    raise ValueError, "No valid samples/environments found. Check whether tree tips match otus/taxa present in samples/environments"
+ValueError: No valid samples/environments found. Check whether tree tips match otus/taxa present in samples/environments
+
+
+Logging stopped at 11:51:05 on 19 Jul 2017

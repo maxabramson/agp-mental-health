@@ -1,0 +1,51 @@
+Logging started at 18:49:52 on 19 Jul 2017
+QIIME version: 1.9.1
+
+qiime_config values:
+pick_otus_reference_seqs_fp	/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/rep_set/97_otus.fasta
+sc_queue	all.q
+pynast_template_alignment_fp	/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/rep_set_aligned/85_otus.pynast.fasta
+cluster_jobs_fp	start_parallel_jobs.py
+assign_taxonomy_reference_seqs_fp	/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/rep_set/97_otus.fasta
+torque_queue	friendlyq
+jobs_to_start	1
+denoiser_min_per_core	50
+assign_taxonomy_id_to_taxonomy_fp	/Users/maxabramson/miniconda3/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/taxonomy/97_otu_taxonomy.txt
+temp_dir	/var/folders/rd/6ytyj48n7nn4l2c6dfsdrccc0000gn/T/
+blastall_fp	blastall
+seconds_to_sleep	1
+
+parameter file values:
+parallel:jobs_to_start	1
+
+Input file md5 sums:
+./filtered_otu_table_94.biom: a225d0b6fabaf84fffad76556b5bb9d9
+./AGP_metadata_subset_94.txt: cd70e6a490e307d361dc819c464d1c41
+./ag_tree.tre: 4d03d2e6ebd837042fc60f5423f93e3e
+
+Executing commands.
+
+# Alpha rarefaction command 
+multiple_rarefactions.py -i ./filtered_otu_table_94.biom -m 10 -x 1500 -s 149 -o arare_max1500//rarefaction/ 
+
+Stdout:
+
+Stderr:
+
+# Alpha diversity on rarefied OTU tables command 
+alpha_diversity.py -i arare_max1500//rarefaction/ -o arare_max1500//alpha_div/  -t ./ag_tree.tre
+
+
+
+*** ERROR RAISED DURING STEP: Alpha diversity on rarefied OTU tables
+Command run was:
+ alpha_diversity.py -i arare_max1500//rarefaction/ -o arare_max1500//alpha_div/  -t ./ag_tree.tre
+Command returned exit status: 1
+Stdout:
+
+Stderr
+Failed because of missing files.
+Couldn't read tree file at path: ./ag_tree.tre
+
+
+Logging stopped at 19:19:15 on 19 Jul 2017
